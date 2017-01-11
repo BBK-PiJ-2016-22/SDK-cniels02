@@ -1,4 +1,5 @@
-//package exercise1
+//package exercise2
+
 
 import scala.util.Random
 
