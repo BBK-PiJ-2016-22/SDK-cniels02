@@ -1,5 +1,5 @@
-//package exercise2
-
+package exercise2
+import scala.util.control.Breaks._
 
 import scala.util.Random
 
@@ -7,7 +7,7 @@ import scala.util.Random
 object Hammurabi {
 
   def hammurabi(): Unit = {
-    val starved = "0"
+    var starved = 0
     var immigrants = 5
     var population = 100
     var harvest = 3000
@@ -18,22 +18,37 @@ object Hammurabi {
     var pricePerAcre = 19
     var plagueDeaths = 0
 
+    var finalStarvedCount = 0
+
     printIntroductoryMessage()
 
     var year = 0
     for (year <- 1 to 10) {
 
 
+      println(
+        s"""
+                   O great Hammurabi!
+                   You are $year in year of your ten year rule.
+                   In the previous year $starved people starved to death.
+                   In the previous year $immigrants people entered the kingdom.
+                   The population is now $population.
+                   We harvested $harvest bushels at $bushelsPerAcre bushels per acre.
+                   Rats destroyed $rat_ate bushels, leaving $bushelsInStorage bushels in storage.
+                   The city owns $acresOwned acres of land.
+                   Land is currently worth $pricePerAcre bushels per acre.
+                   There were $plagueDeaths deaths from the plague.""")
+
       // inputs from user
 
-      val acresToBuy = askHowMuchLandToBuy(bushelsInStorage,pricePerAcre)
-      acresOwned = acresOwned + acresToBuy
-      bushelsInStorage = bushelsInStorage - (acresToBuy*pricePerAcre)
+      val acresBought = askHowMuchLandToBuy(bushelsInStorage,pricePerAcre)
+      acresOwned = acresOwned + acresBought
+      bushelsInStorage = bushelsInStorage - (acresBought*pricePerAcre)
 
-      if(acresToBuy == 0) {
+      if(acresBought == 0) {
         val acresToSell = askHowMuchLandToSell(acresOwned)
         acresOwned = acresOwned - acresToSell
-        bushelsInStorage = pricePerAcre * acresToSell
+        bushelsInStorage = bushelsInStorage + (pricePerAcre * acresToSell)
       }
 
       val grainsToFeed = askHowMuchGrainToFeedThePeople(bushelsInStorage)
@@ -44,28 +59,49 @@ object Hammurabi {
 
       // year calculation
 
-      // plague
-      if(plague()){
-        population = population / 2
+      // people starve
+      starved = math.abs((grainsToFeed/20) - population)
+      var starvedDouble: Double = starved
+      var populationDouble: Double = population
+      if((starvedDouble / populationDouble) > 0.45){
+          println("You starved people to death!")
+          break
+        }
+
+      population = population - starved
+
+      // immigration
+
+      immigrants =  (20 * acresOwned + bushelsInStorage) / ((100 * population) + 1)
+      population = population + immigrants
+
+      // harvest
+
+      bushelsPerAcre = bushelsAcreLand()
+      harvest = acresToPlant*bushelsPerAcre
+      bushelsInStorage = bushelsInStorage + harvest
+
+      // rats
+      rat_ate = ratInfest(bushelsInStorage)
+      bushelsInStorage = bushelsInStorage - rat_ate
+
+      // cost of land
+
+      pricePerAcre = costOfLand()
+
+      if(bushelsInStorage < 0){
+        bushelsInStorage = 0
       }
 
-      // people starve
-
-
-
-      println(
-        s"""
-                   O great Hammurabi!
-                   You are $year in year  of your ten year rule.
-                   In the previous year $starved people starved to death.
-                   In the previous year $immigrants people entered the kingdom.
-                   The population is now $population.
-                   We harvested $harvest bushels at $bushelsPerAcre bushels per acre.
-                   Rats destroyed $rat_ate bushels, leaving $bushelsInStorage bushels in storage.
-                   The city owns $acresOwned acres of land.
-                   Land is currently worth $pricePerAcre bushels per acre.
-                   There were $plagueDeaths deaths from the plague.""")
+      // plague
+      if(plague()){
+        plagueDeaths = population / 2
+        population = population - plagueDeaths
+      }
     }
+
+    endScene(finalStarvedCount, bushelsInStorage)
+
   }
 
 
@@ -79,8 +115,8 @@ object Hammurabi {
     }
   }
   def printIntroductoryMessage() {
-    println(
-      """     Congratulations, you are the newest ruler of ancient Samaria, elected
+    println("""
+                   Congratulations, you are the newest ruler of ancient Samaria, elected
                    for a ten year term of office. Your duties are to dispense food, direct
                    farming, anld buy and sell land as needed to support your people. Watch
                    out for rat infestations and the plague! Grain is the general currency,
@@ -138,9 +174,9 @@ object Hammurabi {
     println()
     var acresToPlant = readInt("How many acres to plant? ")
 
-    while(acresToPlant < 0 || acresToPlant > acresOwned || bushels > bushels*bushelsPerAcre){
+    while(acresToPlant < 0 || acresToPlant > acresOwned || bushels < acresToPlant *bushelsPerAcre){
 
-      if(bushels > bushels*bushelsPerAcre) {
+      if(bushels < acresToPlant*bushelsPerAcre) {
         println("O Great Hammurabi, we have but " + bushels + " bushels of grain!")
         println()
         acresToPlant = readInt("How many acres to plant? ")
@@ -169,10 +205,55 @@ object Hammurabi {
     flag
   }
 
+  def bushelsAcreLand(): Int ={
+    Random.nextInt(8)+1
+  }
+
+  def ratInfest(bushelsInStorage: Int): Int ={
+    var lostHarvest = 0
+
+    val p = 40
+
+    if (Random.nextInt(100) < p) {
+        lostHarvest = bushelsInStorage*(Random.nextInt(3)+1) / 10
+    }
+
+    lostHarvest
+  }
+
+  def costOfLand(): Int ={
+    17 + Random.nextInt(7)
+  }
+
+
+  def endScene(deathCount :Int, bushels: Int){
+
+    println(
+      s"""
+         |You starved $deathCount people to death and earned $bushels bushels.
+         |
+       """.stripMargin
+    )
+
+
+    if(deathCount > 100 && bushels > 20000){
+      println("You were brutal but greedy")
+    }
+
+    if(deathCount < 100 && bushels < 10000){
+      println("You were good to the people, but not greedy enough")
+    }
+
+    if(deathCount > 100 && bushels < 10000){
+      println("You were greedy and bad at the game")
+    }
+
+    if(deathCount < 100 && bushels > 20000){
+      println("You rock")
+    }
+
+  }
 
   Hammurabi.hammurabi()
-
-
-
 }
 
