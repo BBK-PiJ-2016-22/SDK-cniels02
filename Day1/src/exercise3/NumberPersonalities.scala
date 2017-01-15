@@ -1,5 +1,6 @@
 package exercise3
 
+
 /**
   * Created by Casper on 12/01/2017.
   */
@@ -8,13 +9,45 @@ object NumberPersonalities {
 
   def main(args: Array[String]): Unit = {
 
+    //print(isPrime(11))
+
+    print(isHappy(18))
+
   }
+
+  // 4 16 37 58 89 145 42 20 4
 
   def isPrime(n: Int): Boolean ={
-  true
+
+    if(n==1){
+      return false
+    }
+
+    var i = 2
+    while(i < n){
+      if(n%i == 0){
+        return false
+      }
+
+      i = i+1
+    }
+
+    true
+
   }
 
+
   def isHappy(n: Int): Boolean ={
+
+    var splitted: Int = n
+
+        while (splitted != 1) {
+          splitted = splitted.toString.map(_.asDigit).toList.map(a => math.pow(a, 2)).sum.toInt
+          println(splitted)
+          if (splitted == 4) {
+            return false
+          }
+        }
     true
   }
   def isTriangular(n: Int): Boolean={
