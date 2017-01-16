@@ -13,6 +13,7 @@ object NumberPersonalities {
 
     print(isHappy(18))
 
+    isTriangular(30)
   }
 
   // 4 16 37 58 89 145 42 20 4
@@ -50,7 +51,19 @@ object NumberPersonalities {
         }
     true
   }
+
+
   def isTriangular(n: Int): Boolean={
+
+    var triangular = 1
+    var i = n
+
+    while (i < 0){
+      triangular = n - i
+      print(triangular)
+      i = i+1
+    }
+
     true
   }
   def isSquare(n: Int): Boolean ={
