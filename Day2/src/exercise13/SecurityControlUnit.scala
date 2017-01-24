@@ -1,4 +1,4 @@
-package exercise9
+package exercise13
 
 import java.util.Calendar
 
@@ -8,15 +8,6 @@ import scala.collection.mutable.ListBuffer
   * Created by Casper on 24/01/2017.
   */
 
-object SecurityControlUnit {
-  def main(args: Array[String]): Unit = {
-    val c = new SecurityControlUnit
-    val l = new ListBuffer[Sensor]
-    l += new MotionSensor()
-    c.setSensors(l)
-    c.pollSensors()
-  }
-}
 
 class SecurityControlUnit extends ControlUnit{
 
