@@ -116,7 +116,7 @@ object ScalaBasics {
       }
     }
   }
-
+  
   /**
    * Return the base 36 equivalent of the BitInt b.
    *
