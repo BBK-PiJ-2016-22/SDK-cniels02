@@ -76,7 +76,15 @@ object Funcs {
      * list and the cumulative value.
      * @return the final valued.
      */
-    def foldLeft[A,B](ls: List[A], z: B)(f: (B, A) => B): B = ???
+    def foldLeft[A,B](ls: List[A], z: B)(f: (B, A) => B): B = {
+      def fold(ls: List[A], acc: B): B = ls match {
+        case List() => acc
+        case x +: ls => fold(ls, f(acc, x))
+      }
+      fold(ls, z)
+
+
+    }
 
     /**
      * Use your implementation of foldLeft to implement these functions:
@@ -90,7 +98,10 @@ object Funcs {
      * the sublists into one long list. For example, flatten(List(List(1,2,3),
      * List(4,5,6))) produces List(1,2,3,4,5,6).
      */
-     def sum(ls: List[Double]): Double = ???
+     def sum(ls: List[Double]): Double = {
+       foldLeft(ls, 0.0).
+     }
+
      def product(ls: List[Double]): Double = ???
      def length[A](ls: List[A]): Int = ???
      def reverse[A](ls: List[A]): List[A] = ???
