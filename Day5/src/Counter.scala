@@ -4,7 +4,7 @@
 
 object Counter extends App{
   val v = new Counter(10)
-  print(v.dec().inc().inc().count)
+  print(v.dec().inc().inc().adjust(new Adder(20)).count)
 }
 
 
