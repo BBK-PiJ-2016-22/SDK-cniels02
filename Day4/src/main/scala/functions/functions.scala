@@ -1,5 +1,7 @@
 package functions
 
+import scala.math
+
 object Funcs {
 
     // FUNCTIONAL BASICS:
@@ -126,7 +128,11 @@ object Funcs {
      * @param f: A => B the function to be applied to each element of the input.
      * @return the resulting list from applying f to each element of ls.
      */
-     def map[A,B](ls: List[A])(f: A => B): List[B] = ???
+
+    def map[A, B](ls: List[A])(f: A => B): List[B] = ls match {
+      case List() => List()
+      case a :: b => f(a) :: map(b)(f)
+    }
 
     /**
      * filter removes all elements from a list for which a given predicate
@@ -136,7 +142,10 @@ object Funcs {
      * @param f: A => Boolean the predicate
      * @return the filtered list.
      */
-     def filter[A](ls: List[A])(f: A => Boolean): List[A] = ??? 
+     def filter[A](ls: List[A])(f: A => Boolean): List[A] = ls match {
+       case List() => List()
+       case a :: b => if (f(a)) a :: filter(b)(f) else filter(b)(f)
+     }
 
     /**
      * flatMap is very similar to map. However, the function returns a List,
@@ -146,7 +155,10 @@ object Funcs {
      * @return a List[B] containing the flattened results of applying f to all
      * elements of ls.
      */
-     def flatMap[A,B](ls: List[A])(f: A => List[B]): List[B] = ???
+     def flatMap[A,B](ls: List[A])(f: A => List[B]): List[B] = ls match {
+       case List() => List()
+       case x :: xs => f(x) ::: flatMap(xs)(f)
+     }
 
     // COMBINING FUNCTIONS
 
@@ -159,7 +171,9 @@ object Funcs {
      * length is greater than 0.
      * @return the average value of the largest values in the pairs.
      */
-     def maxAverage(ls: List[(Double,Double)]): Double = ???
+     def maxAverage(ls: List[(Double,Double)]) {
+       flatMap(ls)
+     }
 
     /**
      * variance takes a List[Double] and calculates the squared distance
