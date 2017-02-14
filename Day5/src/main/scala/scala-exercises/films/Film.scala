@@ -5,9 +5,6 @@ import scala.math.max
   */
 
 object Film{
-  def apply(name: String, yearOfRelease: Int, imbtRating: Double, director: Director): Film ={
-    new Film(name, yearOfRelease, imbtRating, director)
-  }
 
   def highestRating(filmOne: Film, filmTwo: Film): Double ={
         max(filmOne.getImbtRating, filmOne.getImbtRating)
@@ -21,22 +18,22 @@ object Film{
   }
 }
 
-class Film(name: String, yearOfRelease: Int, imbtRating: Double, director: Director) {
+case class Film(name: String, yearOfRelease: Int, imbtRating: Double, director: Director) {
   def directorsAge: Int ={
-    this.director.getYearOfBirth + this.yearOfRelease
+    director.getYearOfBirth + yearOfRelease
   }
 
   def isDirectedBy(directorToCompare: Director ): Boolean ={
-    if(directorToCompare.equals(this.director))
+    if(directorToCompare == director)
       true
     else
       false
   }
 
-  def copy(name: String = this.name, yearOfRelease: Int = this.yearOfRelease
-           ,imbtRating: Double = this.imbtRating, director: Director = this.director): Film ={
+  def copy(name: String = name, yearOfRelease: Int = yearOfRelease
+           ,imbtRating: Double = imbtRating, director: Director = director): Film ={
 
-      new Film(name, yearOfRelease, imbtRating, director)
+        Film(name, yearOfRelease, imbtRating, director)
 
   }
 
