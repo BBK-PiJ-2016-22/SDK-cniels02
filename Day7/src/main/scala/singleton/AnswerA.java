@@ -1,5 +1,9 @@
 package singleton;
 
+import observer.Observer;
+
+import java.io.Serializable;
+
 /**
  * Created by Casper on 21/02/2017.
  */

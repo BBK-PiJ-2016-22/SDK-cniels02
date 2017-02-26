@@ -23,7 +23,7 @@ class XpayToPayDAdapter {
 
     override def getCardOwnerName: String = xpay.getCustomerName
 
-    override def getCVVNo:Int = xpay.getCardCVVNo.toInt
+    override def getCVVNo:Integer = xpay.getCardCVVNo.toInt
 
     override def setTotalAmount(totalAmount: Double): Unit = xpay.setAmount(totalAmount)
   }

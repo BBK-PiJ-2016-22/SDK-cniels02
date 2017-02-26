@@ -1,11 +1,8 @@
 package decorator
 
 class SimplyNonVegPizza extends Pizza {
-  def getDesc: String = {
-    return null
-  }
+  override def getDesc: String = this.getClass.getSimpleName + " (" + getPrice + ")"
 
-  def getPrice: Double = {
-    return 0
-  }
+  override def getPrice: Double = 350.0
+
 }
