@@ -1,0 +1,8 @@
+a)
+The strategy pattern is implemented through composition. It enables behaviour to be selected at run-time.
+It consists of an interface that is set as a variable in the super class. This interface implements metods that allows
+for a certain type of behaviour, that we want to extend the subclasses with.
+
+b)
+When different algorithms needs to be selected at runtime and an application needs to change behaviour based on
+some selection criteria.
