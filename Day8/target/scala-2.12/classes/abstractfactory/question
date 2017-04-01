@@ -1,0 +1,6 @@
+1)
+
+The abstract factory pattern is used when one wants to extend the range of concrete implemented products,
+without the having to change the clients and where the client is unaware of the different implementations.
+Where custom configuration is key.
+
