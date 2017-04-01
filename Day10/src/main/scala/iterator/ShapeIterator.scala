@@ -4,9 +4,24 @@ import java.util.Iterator
 
 class ShapeIterator(private var shapes: Array[Shape]) extends Iterator[Shape] {
 
-  override def hasNext(): Boolean = ???
+  var current: Int = 0
 
-  override def next(): Shape = ???
+  override def hasNext(): Boolean = if (current < shapes.length) true else false
 
-  override def remove(): Unit = ???
+  override def next(): Shape = {
+    if(hasNext()) {
+      val toReturn: Shape = shapes(current)
+      current = current + 1
+      toReturn
+    }else{
+      null
+    }
+  }
+
+  override def remove(): Unit = {
+    if(hasNext()) {
+      shapes(current) = null
+      shapes = shapes.filter(shape => shape != null)
+    }
+  }
 }
