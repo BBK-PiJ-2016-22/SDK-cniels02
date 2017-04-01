@@ -1,6 +1,0 @@
-a) It is a pattern that adds an interface to a more complex set of subsystems, enabling simple interface access
-that hides the complexity.
-
-
-b)Can be used to hide the complexity of the system by allowing interface access to a more complex interconnected
-subsystem.
